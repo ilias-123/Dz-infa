@@ -434,7 +434,7 @@ void GetBookFromStudent()
                             printf("No file: %s\n", FILE_STUDENTS_BOOKS);
                             exit(9);
                         }
-                        setbuf(StudentsBookFile, NULL); 
+                        setbuf(StudentsBookFile, NULL);
                         int one_time_to_do = 0;
                         for (int i = 0; i < sizeOfStudentsBook; i++)
                         {
@@ -450,9 +450,12 @@ void GetBookFromStudent()
                             }
                         }
 
-                        fclose(StudentsBookFile);
-
-                        books[i].quantTaken--;
+                        if(one_time_to_do == 1){
+                            fclose(StudentsBookFile);
+                            books[i].quantTaken--;
+                        } else {
+                            printf("\nThis student did not take this book\n");
+                        }
                         return;
                     }
                 }
@@ -475,7 +478,7 @@ void CloseBooks()
         printf("No file: %s\n", FILE_BOOKS);
         exit(9);
     }
-    setbuf(booksFile, NULL); 
+    setbuf(booksFile, NULL);
 
     for (int i = 0; i < sizeOfBooks; i++)
     {
