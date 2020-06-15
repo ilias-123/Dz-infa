@@ -339,6 +339,18 @@ void DeleteBook()
     }
     if (index != -1)
     {
+        studentsbooks = LoadStudentsBooks();
+        for (int i = 0; i < sizeOfStudentsBook; i++)
+        {
+            if(strcmp(studentsbooks[i].isbn, isbn) == 0)
+            {
+                printf("\nThis book on hand\n");
+                free(studentsbooks);
+                return;
+            }
+        }
+        free(studentsbooks);
+
         Book *newBooks = (Book *) malloc(sizeof(Book) * (sizeOfBooks - 1));
         for (int i = 0, j = 0; i < sizeOfBooks; i++)
         {
@@ -381,10 +393,6 @@ void GiveBookToStudent()
                             printf("No file: %s\n", FILE_STUDENTS_BOOKS);
                             exit(9);
                         }
-//                        char date[MAX_LEN] = {0};
-//                        long int s_time = time(NULL);
-//                        struct tm *m_time = localtime(&s_time);
-//                        strftime(date, MAX_LEN, "%d.%m.%Y", m_time);
                         char date[MAX_LEN];
                         printf("Input date (format dd.mm.yyyy): ");
                         scanf("%s", date);
@@ -451,11 +459,12 @@ void GetBookFromStudent()
                         }
 
                         if(one_time_to_do == 1){
-                            fclose(StudentsBookFile);
                             books[i].quantTaken--;
                         } else {
                             printf("\nThis student did not take this book\n");
                         }
+                        fclose(StudentsBookFile);
+                        free(studentsbooks);
                         return;
                     }
                 }
@@ -469,7 +478,7 @@ void GetBookFromStudent()
             return;
         }
     }
-    printf("\nThis student not exist\n");
+    printf("\nThis book not exist\n");
 }
 void CloseBooks()
 {
@@ -549,6 +558,18 @@ void DeleteStudent()
     }
     if (index != -1)
     {
+        studentsbooks = LoadStudentsBooks();
+        for (int i = 0; i < sizeOfStudentsBook; i++)
+        {
+            if(strcmp(studentsbooks[i].num, num) == 0)
+            {
+                printf("\nThis student have books\n");
+                free(studentsbooks);
+                return;
+            }
+        }
+        free(studentsbooks);
+
         Student *newStudents = (Student *) malloc(sizeof(Student) * (sizeOfStudents - 1));
         for (int i = 0, j = 0; i < sizeOfStudents; i++)
         {
@@ -852,9 +873,9 @@ int main()
     LoadDataByPermission(permission[0], permission[1]);
     ChoiceMenu(permission[0], permission[1]);
 
-    //free(books);
-    //free(users);
-    //free(students);
+    free(books);
+    free(users);
+    free(students);
     printf("CLOSING PROGRAM..... INPUT SOME NUMBER");
     int d;
     scanf("%d", &d);
